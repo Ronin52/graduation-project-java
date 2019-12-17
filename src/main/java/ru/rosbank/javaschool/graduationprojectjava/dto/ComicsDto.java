@@ -15,13 +15,17 @@ public class ComicsDto {
     private String title;
     private String description;
     private String image;
+    private String sound;
+    private String video;
 
     public static ComicsDto from(ComicsEntity entity) {
         return new ComicsDto(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entity.getImage()
+                entity.getImage(),
+                entity.getSound(),
+                entity.getVideo()
         );
     }
 }

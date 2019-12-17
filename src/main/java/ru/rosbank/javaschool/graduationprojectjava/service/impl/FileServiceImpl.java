@@ -24,7 +24,8 @@ public class FileServiceImpl implements FileService {
 
     private enum FILE_CONTENT_TYPE {
         JPEG("image/jpeg"),
-        PNG("image/png");
+        PNG("image/png"),
+        ;
 
         private String name;
 

@@ -27,14 +27,18 @@ public class ComicsEntity {
     private String title;
     private String description;
     private String image;
+    private String sound;
+    private String video;
     @ManyToMany(mappedBy = "comics")
     private Collection<CharacterEntity> characters;
 
-    public ComicsEntity(UUID id, String title, String description, String image) {
+    public ComicsEntity(UUID id, String title, String description, String image, String sound, String video) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.image = image;
+        this.sound = sound;
+        this.video = video;
     }
 
     public static ComicsEntity from(ComicsDto dto) {
@@ -42,7 +46,9 @@ public class ComicsEntity {
                 dto.getId(),
                 dto.getTitle(),
                 dto.getDescription(),
-                dto.getImage()
+                dto.getImage(),
+                dto.getSound(),
+                dto.getVideo()
         );
     }
 
@@ -52,6 +58,8 @@ public class ComicsEntity {
                 dto.getTitle(),
                 dto.getDescription(),
                 dto.getImage(),
+                dto.getSound(),
+                dto.getVideo(),
                 dto.getCharacters().stream()
                         .map(CharacterEntity::from)
                         .collect(Collectors.toList())

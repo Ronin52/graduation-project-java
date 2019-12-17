@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.rosbank.javaschool.graduationprojectjava.constants.Errors;
+import ru.rosbank.javaschool.graduationprojectjava.constrain.FileType;
 import ru.rosbank.javaschool.graduationprojectjava.entity.CharacterEntity;
 
 import javax.validation.constraints.NotNull;
@@ -24,7 +25,12 @@ public class CharacterDtoWithComics {
     @Size(min = 10, message = Errors.VALIDATION_MIN_SIZE)
     @Size(max = 1000, message = Errors.VALIDATION_MAX_SIZE)
     private String description;
+    @FileType(value = {".jpg", ".png"}, message = Errors.FILE_BAD_TYPE)
     private String image;
+    @FileType(value = {".mp3", ".ogg"}, message = Errors.FILE_BAD_TYPE)
+    private String sound;
+    @FileType(value = {".mp4", ".avi"}, message = Errors.FILE_BAD_TYPE)
+    private String video;
     private Collection<ComicsDto> comics;
 
     public static CharacterDtoWithComics from(CharacterEntity entity) {
@@ -33,6 +39,8 @@ public class CharacterDtoWithComics {
                 entity.getName(),
                 entity.getDescription(),
                 entity.getImage(),
+                entity.getSound(),
+                entity.getVideo(),
                 entity.getComics().stream()
                         .map(ComicsDto::from)
                         .collect(Collectors.toList())

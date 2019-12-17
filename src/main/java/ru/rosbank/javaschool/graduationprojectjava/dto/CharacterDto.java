@@ -16,13 +16,17 @@ public class CharacterDto {
     private String name;
     private String description;
     private String image;
+    private String sound;
+    private String video;
 
     public static CharacterDto from(CharacterEntity entity) {
         return new CharacterDto(
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
-                entity.getImage()
+                entity.getImage(),
+                entity.getSound(),
+                entity.getVideo()
         );
     }
 }
