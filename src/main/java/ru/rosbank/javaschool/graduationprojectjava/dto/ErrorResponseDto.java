@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponseDto {
-  private int status;
-  private String message;
+    private final int status;
+    private final String message;
+    private final Map<String, List<String>> errors;
 }

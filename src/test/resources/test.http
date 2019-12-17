@@ -1,0 +1,32 @@
+GET localhost:8080/characters
+
+###
+POST localhost:8080/characters/save
+Content-Type:application/json
+
+{
+  "id": "",
+  "name": "",
+  "description": "",
+  "image": "",
+  "comics": [
+
+  ]
+}
+
+###
+GET localhost:8080/comics
+
+###
+POST http://localhost:8080/comics/save
+Content-Type:application/json
+
+{
+  "id": "",
+  "title": "",
+  "description": "",
+  "image": "",
+  "characters": []
+}
+
+###

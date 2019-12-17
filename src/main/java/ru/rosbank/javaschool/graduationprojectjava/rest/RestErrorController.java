@@ -3,15 +3,23 @@ package ru.rosbank.javaschool.graduationprojectjava.rest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
+import ru.rosbank.javaschool.graduationprojectjava.constants.Errors;
 import ru.rosbank.javaschool.graduationprojectjava.dto.ErrorResponseDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${server.error.path:${error.path:/error}}")
@@ -30,41 +38,52 @@ public class RestErrorController extends AbstractErrorController {
         ServletWebRequest webRequest = new ServletWebRequest(request);
         Throwable error = errorAttributes.getError(webRequest);
         int status = getStatus(request).value();
-        String message = "error.unknown";
+        String message = Errors.UNKNOWN;
         if (error == null) {
             return ResponseEntity.status(status).body(
-                    new ErrorResponseDto(status, message)
+                    new ErrorResponseDto(status, message, Collections.emptyMap())
             );
         }
         if (error instanceof CharacterNotFoundException) {
             status = 404;
-            message = "error.character.not_found";
+            message = Errors.CHARACTER_NOT_FOUND;
             return getErrorDto(error, status, message);
         }
         if (error instanceof ComicsNotFoundException) {
             status = 404;
-            message = "error.comics.not_found";
+            message = Errors.COMICS_NOT_FOUND;
             return getErrorDto(error, status, message);
         }
         if (error instanceof FileNotFoundException) {
             status = 404;
-            message = "error.file.not_found";
+            message = Errors.FILE_NOT_FOUND;
             return getErrorDto(error, status, message);
         }
         if (error instanceof FileStorageException) {
             status = 400;
-            message = "error.file.can_not_save";
+            message = Errors.FILE_CAN_NOT_SAVE;
             return getErrorDto(error, status, message);
         }
         if (error instanceof UnsupportedFileTypeException) {
             status = 400;
-            message = "error.file.bad_type";
+            message = Errors.FILE_BAD_TYPE;
             return getErrorDto(error, status, message);
         }
-        if (error instanceof ContentTypeIsNullException){
+        if (error instanceof ContentTypeIsNullException) {
             status = 400;
-            message = "error.header.content_type_is_null";
+            message = Errors.HEADER_CONTENT_TYPE_IS_NULL;
             return getErrorDto(error, status, message);
+        }
+        if (error instanceof MethodArgumentNotValidException) {
+            status = 400;
+            message = Errors.VALIDATION;
+            final Map<String, List<String>> errors = ((MethodArgumentNotValidException) error).
+                    getBindingResult().getFieldErrors().stream()
+                    .collect(
+                            Collectors.groupingBy(FieldError::getField,
+                                    Collectors.mapping(DefaultMessageSourceResolvable::getDefaultMessage,
+                                            Collectors.toList())));
+            return getErrorDto(error, status, message, errors);
         }
 
         return getErrorDto(error, status, message);
@@ -73,7 +92,14 @@ public class RestErrorController extends AbstractErrorController {
     private ResponseEntity<ErrorResponseDto> getErrorDto(Throwable error, int status, String message) {
         error.printStackTrace();
         return ResponseEntity.status(status).body(
-                new ErrorResponseDto(status, message)
+                new ErrorResponseDto(status, message, Collections.emptyMap())
+        );
+    }
+
+    private ResponseEntity<ErrorResponseDto> getErrorDto(Throwable error, int status, String message, Map<String, List<String>> errors) {
+        error.printStackTrace();
+        return ResponseEntity.status(status).body(
+                new ErrorResponseDto(status, message, errors)
         );
     }
 

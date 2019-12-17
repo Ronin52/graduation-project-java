@@ -9,6 +9,7 @@ import ru.rosbank.javaschool.graduationprojectjava.dto.ComicsDto;
 import ru.rosbank.javaschool.graduationprojectjava.service.EntityService;
 import ru.rosbank.javaschool.graduationprojectjava.service.RelationService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,13 +25,17 @@ public class RestCharacterController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public CharacterDtoWithComics save(@RequestBody CharacterDtoWithComics characterDtoWithComics) {
+    public CharacterDtoWithComics save(
+            @Valid @RequestBody CharacterDtoWithComics characterDtoWithComics) {
         return service.save(characterDtoWithComics);
     }
 
     @PostMapping("/bind/:{characterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void bindComics(@PathVariable UUID characterId, @RequestBody List<ComicsDto> comicsDtoList) {
+    public void bindComics(
+            @PathVariable
+                    UUID characterId,
+            @RequestBody List<ComicsDto> comicsDtoList) {
         for (ComicsDto dto : comicsDtoList) {
             relationService.bindCharacterAndComicsById(characterId, dto.getId());
         }
@@ -43,12 +48,15 @@ public class RestCharacterController {
 
 
     @GetMapping(value = "/page", params = {"p", "count"})
-    public List<CharacterDto> getPage(@RequestParam int p, @RequestParam int count) {
+    public List<CharacterDto> getPage(
+            @RequestParam int p,
+            @RequestParam int count) {
         return service.getPage(p, count);
     }
 
     @GetMapping(value = "/filter", params = "f")
-    public List<CharacterDto> getSortedByName(@RequestParam String f) {
+    public List<CharacterDto> getSortedByName(
+            @RequestParam String f) {
         if (f.equals("name")) {
             return service.getSortedByName();
         }
@@ -56,7 +64,10 @@ public class RestCharacterController {
     }
 
     @GetMapping(value = "/search", params = {"field", "name", "description"})
-    public List<CharacterDto> searchByNameAndDescription(@RequestParam String field, @RequestParam String name, @RequestParam String description) {
+    public List<CharacterDto> searchByNameAndDescription(
+            @RequestParam String field,
+            @RequestParam String name,
+            @RequestParam String description) {
         if (field.equals("name")) {
             return service.findByName(name);
         }
@@ -72,18 +83,21 @@ public class RestCharacterController {
     }
 
     @GetMapping("/:{id}")
-    public CharacterDto getById(@PathVariable UUID id) {
+    public CharacterDto getById(
+            @PathVariable UUID id) {
         return service.getByIdWithoutCollection(id);
     }
 
     @GetMapping("/:{id}/comics")
-    public CharacterDtoWithComics getComics(@PathVariable UUID id) {
+    public CharacterDtoWithComics getComics(
+            @PathVariable UUID id) {
         return service.getByIdWithCollection(id);
     }
 
     @DeleteMapping("/remove/:{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeById(@PathVariable UUID id) {
+    public void removeById(
+            @PathVariable UUID id) {
         service.removeById(id);
     }
 
