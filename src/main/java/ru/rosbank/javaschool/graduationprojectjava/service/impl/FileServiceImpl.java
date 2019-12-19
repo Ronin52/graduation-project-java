@@ -27,6 +27,8 @@ public class FileServiceImpl implements FileService {
     private enum FILE_CONTENT_TYPE {
         JPEG("image/jpeg"),
         PNG("image/png"),
+        MPEG("audio/mpeg"),
+        VWEBM("video/webm")
         ;
 
         private String name;
@@ -51,6 +53,8 @@ public class FileServiceImpl implements FileService {
 
     private static final String EXTENSION_JPEG = ".jpg";
     private static final String EXTENSION_PNG = ".png";
+    public static final String EXTENSION_MPEG = ".mp3";
+    public static final String EXTENSION_WEBM = ".webm";
 
 
     public FileServiceImpl(@Value("${app.upload-path}") String uploadPath) {
@@ -77,6 +81,12 @@ public class FileServiceImpl implements FileService {
                 break;
             case PNG:
                 name = UUID.randomUUID() + EXTENSION_PNG;
+                break;
+            case MPEG:
+                name = UUID.randomUUID() + EXTENSION_MPEG;
+                break;
+            case VWEBM:
+                name = UUID.randomUUID() + EXTENSION_WEBM;
                 break;
             default:
                 throw new UnsupportedFileTypeException(contentType);

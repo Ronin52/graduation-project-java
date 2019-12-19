@@ -25,11 +25,11 @@ public class ComicsDtoWithCharacters {
     @Size(min = 10, message = Errors.VALIDATION_MIN_SIZE)
     @Size(max = 2000, message = Errors.VALIDATION_MAX_SIZE)
     private String description;
-    @FileType(message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {".jpg", ".png"}, message = Errors.FILE_BAD_TYPE)
     private String image;
-    @FileType(value = {".mp3", ".ogg"}, message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {".mp3"}, message = Errors.FILE_BAD_TYPE)
     private String sound;
-    @FileType(value = {".mp4", ".avi"}, message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {".webm"}, message = Errors.FILE_BAD_TYPE)
     private String video;
     private Collection<CharacterDto> characters;
 

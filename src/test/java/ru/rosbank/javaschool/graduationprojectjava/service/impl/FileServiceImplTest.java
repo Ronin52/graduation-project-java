@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.multipart.MultipartFile;
 import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
+import ru.rosbank.javaschool.graduationprojectjava.exception.ContentTypeIsNullException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.FileStorageException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.UnsupportedFileTypeException;
 import ru.rosbank.javaschool.graduationprojectjava.service.FileService;
@@ -52,7 +53,7 @@ class FileServiceImplTest {
         when(multipartFile.getContentType()).thenReturn("audio/mpeg");
         UploadResponseDto dto = service.save(multipartFile);
 
-        assertTrue(dto.getName().endsWith(".mpeg"));
+        assertTrue(dto.getName().endsWith(".mp3"));
     }
 
     @Test
@@ -60,6 +61,13 @@ class FileServiceImplTest {
         when(multipartFile.getContentType()).thenReturn("");
 
         assertThrows(UnsupportedFileTypeException.class, () -> service.save(multipartFile));
+    }
+
+    @Test
+    void saveMultipartThrowContentTypeIsNullException() {
+        when(multipartFile.getContentType()).thenReturn(null);
+
+        assertThrows(ContentTypeIsNullException.class, () -> service.save(multipartFile));
     }
 
     @Test
