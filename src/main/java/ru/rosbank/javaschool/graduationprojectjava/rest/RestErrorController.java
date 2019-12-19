@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import ru.rosbank.javaschool.graduationprojectjava.constants.Errors;
 import ru.rosbank.javaschool.graduationprojectjava.dto.ErrorResponseDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@ApiIgnore
 @RestController
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class RestErrorController extends AbstractErrorController {
