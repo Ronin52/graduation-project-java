@@ -3,7 +3,7 @@ package ru.rosbank.javaschool.graduationprojectjava.service.impl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.multipart.MultipartFile;
-import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
+import ru.rosbank.javaschool.graduationprojectjava.dto.UploadFileDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.ContentTypeIsNullException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.FileStorageException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.UnsupportedFileTypeException;
@@ -35,7 +35,7 @@ class FileServiceImplTest {
     @Test
     void saveMultipartPng() {
         when(multipartFile.getContentType()).thenReturn("image/png");
-        UploadResponseDto dto = service.save(multipartFile);
+        UploadFileDto dto = service.save(multipartFile);
 
         assertTrue(dto.getName().endsWith(".png"));
     }
@@ -43,7 +43,7 @@ class FileServiceImplTest {
     @Test
     void saveMultipartWebm() {
         when(multipartFile.getContentType()).thenReturn("video/webm");
-        UploadResponseDto dto = service.save(multipartFile);
+        UploadFileDto dto = service.save(multipartFile);
 
         assertTrue(dto.getName().endsWith(".webm"));
     }
@@ -51,7 +51,7 @@ class FileServiceImplTest {
     @Test
     void saveMultipartMpeg() {
         when(multipartFile.getContentType()).thenReturn("audio/mpeg");
-        UploadResponseDto dto = service.save(multipartFile);
+        UploadFileDto dto = service.save(multipartFile);
 
         assertTrue(dto.getName().endsWith(".mp3"));
     }

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.rosbank.javaschool.graduationprojectjava.constants.Extensions;
 import ru.rosbank.javaschool.graduationprojectjava.domain.UploadInfo;
-import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
+import ru.rosbank.javaschool.graduationprojectjava.dto.UploadFileDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.ContentTypeIsNullException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.FileStorageException;
 import ru.rosbank.javaschool.graduationprojectjava.exception.UnsupportedFileTypeException;
@@ -65,7 +65,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    public UploadResponseDto save(MultipartFile multipartFile) {
+    public UploadFileDto save(MultipartFile multipartFile) {
         final String name;
         String contentType = multipartFile.getContentType();
         if (contentType == null) {
@@ -89,7 +89,7 @@ public class FileServiceImpl implements FileService {
         }
         try {
             multipartFile.transferTo(Paths.get(uploadPath).resolve(name));
-            return new UploadResponseDto(name);
+            return new UploadFileDto(name);
         } catch (IOException e) {
             throw new FileStorageException(e);
         }

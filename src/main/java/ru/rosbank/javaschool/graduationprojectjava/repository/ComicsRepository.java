@@ -15,9 +15,9 @@ public interface ComicsRepository extends JpaRepository<ComicsEntity, UUID> {
 
     List<ComicsEntity> findAllByDescriptionContainsIgnoreCase(String q);
 
-    @Query(value = "SELECT id, title, description, image FROM comics OFFSET (:page - 1) * (:count) LIMIT (:count)", nativeQuery = true)
+    @Query(value = "SELECT id, title, description, image, sound, video FROM comics LIMIT (:count) OFFSET (:page - 1) * (:count)", nativeQuery = true)
     List<ComicsEntity> getPage(@Param("page") int page, @Param("count") int elements);
 
-    @Query(value = "SELECT id, title, description, image FROM comics ORDER BY title", nativeQuery = true)
+    @Query(value = "SELECT id, title, description, image, sound, video FROM comics ORDER BY title", nativeQuery = true)
     List<ComicsEntity> getSortedByName();
 }

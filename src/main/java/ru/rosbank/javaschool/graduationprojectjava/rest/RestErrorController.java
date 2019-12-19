@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import ru.rosbank.javaschool.graduationprojectjava.constants.Errors;
-import ru.rosbank.javaschool.graduationprojectjava.dto.ErrorResponseDto;
+import ru.rosbank.javaschool.graduationprojectjava.dto.ErrorDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -36,14 +36,14 @@ public class RestErrorController extends AbstractErrorController {
     }
 
     @RequestMapping
-    public ResponseEntity<ErrorResponseDto> error(HttpServletRequest request) {
+    public ResponseEntity<ErrorDto> error(HttpServletRequest request) {
         ServletWebRequest webRequest = new ServletWebRequest(request);
         Throwable error = errorAttributes.getError(webRequest);
         int status = getStatus(request).value();
         String message = Errors.UNKNOWN;
         if (error == null) {
             return ResponseEntity.status(status).body(
-                    new ErrorResponseDto(status, message, Collections.emptyMap())
+                    new ErrorDto(status, message, Collections.emptyMap())
             );
         }
         if (error instanceof CharacterNotFoundException) {
@@ -91,17 +91,17 @@ public class RestErrorController extends AbstractErrorController {
         return getErrorDto(error, status, message);
     }
 
-    private ResponseEntity<ErrorResponseDto> getErrorDto(Throwable error, int status, String message) {
+    private ResponseEntity<ErrorDto> getErrorDto(Throwable error, int status, String message) {
         error.printStackTrace();
         return ResponseEntity.status(status).body(
-                new ErrorResponseDto(status, message, Collections.emptyMap())
+                new ErrorDto(status, message, Collections.emptyMap())
         );
     }
 
-    private ResponseEntity<ErrorResponseDto> getErrorDto(Throwable error, int status, String message, Map<String, List<String>> errors) {
+    private ResponseEntity<ErrorDto> getErrorDto(Throwable error, int status, String message, Map<String, List<String>> errors) {
         error.printStackTrace();
         return ResponseEntity.status(status).body(
-                new ErrorResponseDto(status, message, errors)
+                new ErrorDto(status, message, errors)
         );
     }
 

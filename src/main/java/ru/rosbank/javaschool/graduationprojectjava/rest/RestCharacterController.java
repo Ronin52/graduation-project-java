@@ -1,5 +1,6 @@
 package ru.rosbank.javaschool.graduationprojectjava.rest;
 
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +33,9 @@ public class RestCharacterController {
     @PostMapping("/bind/:{characterId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void bindComics(
-            @PathVariable
-                    UUID characterId,
+            @ApiParam(value = "UUID персонажа для привязки",required = true)
+            @PathVariable UUID characterId,
+            @ApiParam(value = "Список Comics DTO, которые необходимо привязать к персонажу",required = true)
             @RequestBody List<ComicsDto> comicsDtoList) {
         for (ComicsDto dto : comicsDtoList) {
             relationService.bindCharacterAndComicsById(characterId, dto.getId());
@@ -55,7 +56,8 @@ public class RestCharacterController {
     }
 
     @GetMapping(value = "/filter", params = "f")
-    public List<CharacterDto> getSortedByName(
+    public List<CharacterDto> filterBy(
+            @ApiParam(value = "Список фильтров, через запятую. На данном этаме реализован только один фильтр (name)",required = true)
             @RequestParam String f) {
         if (f.equals("name")) {
             return service.getSortedByName();
@@ -64,9 +66,12 @@ public class RestCharacterController {
     }
 
     @GetMapping(value = "/search", params = {"field", "name", "description"})
-    public List<CharacterDto> searchByNameAndDescription(
+    public List<CharacterDto> searchBy(
+            @ApiParam(value = "По каким полям искать (all, name, description)", required = true)
             @RequestParam String field,
+            @ApiParam("Имя")
             @RequestParam String name,
+            @ApiParam("Описание")
             @RequestParam String description) {
         if (field.equals("name")) {
             return service.findByName(name);
@@ -83,13 +88,8 @@ public class RestCharacterController {
     }
 
     @GetMapping("/:{id}")
-    public CharacterDto getById(
-            @PathVariable UUID id) {
-        return service.getByIdWithoutCollection(id);
-    }
-
-    @GetMapping("/:{id}/comics")
-    public CharacterDtoWithComics getComics(
+    public CharacterDtoWithComics getById(
+            @ApiParam(value = "UUID",required = true)
             @PathVariable UUID id) {
         return service.getByIdWithCollection(id);
     }
@@ -97,6 +97,7 @@ public class RestCharacterController {
     @DeleteMapping("/remove/:{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeById(
+            @ApiParam(value = "UUID",required = true)
             @PathVariable UUID id) {
         service.removeById(id);
     }

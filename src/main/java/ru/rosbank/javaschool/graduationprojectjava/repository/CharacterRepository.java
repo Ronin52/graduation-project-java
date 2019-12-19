@@ -15,9 +15,9 @@ public interface CharacterRepository extends JpaRepository<CharacterEntity, UUID
 
     List<CharacterEntity> findAllByDescriptionContainsIgnoreCase(String q);
 
-    @Query(value = "SELECT id, name, description, image FROM characters OFFSET (:page - 1) * (:count) LIMIT (:count)", nativeQuery = true)
+    @Query(value = "SELECT id, name, description, image, sound, video FROM characters LIMIT (:count) OFFSET (:page - 1) * (:count)", nativeQuery = true)
     List<CharacterEntity> getPage(@Param("page") int page, @Param("count") int count);
 
-    @Query(value = "SELECT id, name, description, image FROM characters ORDER BY name", nativeQuery = true)
+    @Query(value = "SELECT id, name, description, image, sound, video FROM characters ORDER BY name", nativeQuery = true)
     List<CharacterEntity> getSortedByName();
 }
