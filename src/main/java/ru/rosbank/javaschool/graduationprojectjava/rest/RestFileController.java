@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.rosbank.javaschool.graduationprojectjava.domain.UploadInfo;
 import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
 import ru.rosbank.javaschool.graduationprojectjava.service.FileService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequiredArgsConstructor

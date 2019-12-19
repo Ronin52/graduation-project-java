@@ -5,6 +5,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.rosbank.javaschool.graduationprojectjava.constants.Extensions;
 import ru.rosbank.javaschool.graduationprojectjava.domain.UploadInfo;
 import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
 import ru.rosbank.javaschool.graduationprojectjava.exception.ContentTypeIsNullException;
@@ -51,11 +52,6 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private static final String EXTENSION_JPEG = ".jpg";
-    private static final String EXTENSION_PNG = ".png";
-    public static final String EXTENSION_MPEG = ".mp3";
-    public static final String EXTENSION_WEBM = ".webm";
-
 
     public FileServiceImpl(@Value("${app.upload-path}") String uploadPath) {
         this.uploadPath = uploadPath;
@@ -77,16 +73,16 @@ public class FileServiceImpl implements FileService {
         }
         switch (FileContentType.getType(contentType)) {
             case JPEG:
-                name = UUID.randomUUID() + EXTENSION_JPEG;
+                name = UUID.randomUUID() + Extensions.JPEG;
                 break;
             case PNG:
-                name = UUID.randomUUID() + EXTENSION_PNG;
+                name = UUID.randomUUID() + Extensions.PNG;
                 break;
             case MPEG:
-                name = UUID.randomUUID() + EXTENSION_MPEG;
+                name = UUID.randomUUID() + Extensions.MPEG;
                 break;
             case VWEBM:
-                name = UUID.randomUUID() + EXTENSION_WEBM;
+                name = UUID.randomUUID() + Extensions.WEBM;
                 break;
             default:
                 throw new UnsupportedFileTypeException(contentType);

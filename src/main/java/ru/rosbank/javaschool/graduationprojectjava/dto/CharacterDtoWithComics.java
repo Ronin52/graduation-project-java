@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.rosbank.javaschool.graduationprojectjava.constants.Errors;
+import ru.rosbank.javaschool.graduationprojectjava.constants.Extensions;
 import ru.rosbank.javaschool.graduationprojectjava.constrain.FileType;
 import ru.rosbank.javaschool.graduationprojectjava.entity.CharacterEntity;
 
@@ -25,11 +26,11 @@ public class CharacterDtoWithComics {
     @Size(min = 10, message = Errors.VALIDATION_MIN_SIZE)
     @Size(max = 1000, message = Errors.VALIDATION_MAX_SIZE)
     private String description;
-    @FileType(value = {".jpg", ".png"}, message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {Extensions.JPEG, Extensions.PNG}, message = Errors.FILE_BAD_TYPE)
     private String image;
-    @FileType(value = {".mp3"}, message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {Extensions.MPEG}, message = Errors.FILE_BAD_TYPE)
     private String sound;
-    @FileType(value = {".webm"}, message = Errors.FILE_BAD_TYPE)
+    @FileType(value = {Extensions.WEBM}, message = Errors.FILE_BAD_TYPE)
     private String video;
     private Collection<ComicsDto> comics;
 
