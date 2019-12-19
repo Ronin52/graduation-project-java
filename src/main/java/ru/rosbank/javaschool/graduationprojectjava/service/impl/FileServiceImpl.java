@@ -3,6 +3,7 @@ package ru.rosbank.javaschool.graduationprojectjava.service.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.rosbank.javaschool.graduationprojectjava.domain.UploadInfo;
 import ru.rosbank.javaschool.graduationprojectjava.dto.UploadResponseDto;
@@ -19,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class FileServiceImpl implements FileService {
     private final String uploadPath;
 

@@ -2,6 +2,7 @@ package ru.rosbank.javaschool.graduationprojectjava.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.rosbank.javaschool.graduationprojectjava.dto.CharacterDto;
 import ru.rosbank.javaschool.graduationprojectjava.dto.CharacterDtoWithComics;
 import ru.rosbank.javaschool.graduationprojectjava.dto.ComicsDto;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CharacterServiceImpl implements EntityService<CharacterDto, CharacterDtoWithComics> {
     private final CharacterRepository repository;

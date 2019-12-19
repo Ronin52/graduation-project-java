@@ -2,6 +2,7 @@ package ru.rosbank.javaschool.graduationprojectjava.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.rosbank.javaschool.graduationprojectjava.entity.CharacterEntity;
 import ru.rosbank.javaschool.graduationprojectjava.entity.ComicsEntity;
 import ru.rosbank.javaschool.graduationprojectjava.exception.CharacterNotFoundException;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class RelationServiceImpl implements RelationService {
     private final CharacterRepository characterRepository;
