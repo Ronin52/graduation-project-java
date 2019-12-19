@@ -29,4 +29,15 @@ public class CharacterDto {
                 entity.getVideo()
         );
     }
+
+    public static CharacterDto from(CharacterDtoWithComics dto) {
+        return new CharacterDto(
+                dto.getId(),
+                dto.getName(),
+                dto.getDescription(),
+                dto.getImage(),
+                dto.getSound(),
+                dto.getVideo()
+        );
+    }
 }

@@ -28,6 +28,17 @@ public class ComicsDto {
                 entity.getVideo()
         );
     }
+
+    public static ComicsDto from(ComicsDtoWithCharacters dto) {
+        return new ComicsDto(
+                dto.getId(),
+                dto.getTitle(),
+                dto.getDescription(),
+                dto.getImage(),
+                dto.getSound(),
+                dto.getVideo()
+        );
+    }
 }
 
 
