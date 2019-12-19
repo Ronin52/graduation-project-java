@@ -24,7 +24,7 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
     private final String uploadPath;
 
-    private enum FILE_CONTENT_TYPE {
+    private enum FileContentType {
         JPEG("image/jpeg"),
         PNG("image/png"),
         MPEG("audio/mpeg"),
@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
 
         private String name;
 
-        FILE_CONTENT_TYPE(String name) {
+        FileContentType(String name) {
             this.name = name;
         }
 
@@ -41,8 +41,8 @@ public class FileServiceImpl implements FileService {
             return name;
         }
 
-        public static FILE_CONTENT_TYPE getType(String typeName) {
-            for (FILE_CONTENT_TYPE value : FILE_CONTENT_TYPE.values()) {
+        public static FileContentType getType(String typeName) {
+            for (FileContentType value : FileContentType.values()) {
                 if(value.getName().equals(typeName)){
                     return value;
                 }
@@ -75,7 +75,7 @@ public class FileServiceImpl implements FileService {
         if (contentType == null) {
             throw new ContentTypeIsNullException();
         }
-        switch (FILE_CONTENT_TYPE.getType(contentType)) {
+        switch (FileContentType.getType(contentType)) {
             case JPEG:
                 name = UUID.randomUUID() + EXTENSION_JPEG;
                 break;
